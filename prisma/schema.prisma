@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  name         String
+  password     String
+  role         Role          @default(USER)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+  categories   Category[]
+
+  @@map("users")
+}
+
+model Category {
+  id           Int             @id @default(autoincrement())
+  name         String
+  icon         String          @default("category")
+  color        String          @default("#6b38d4")
+  type         TransactionType @default(EXPENSE)
+  isDefault    Boolean         @default(false)
+  userId       Int?
+  user         User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  createdAt    DateTime        @default(now())
+
+  @@map("categories")
+}
+
+model Transaction {
+  id          Int             @id @default(autoincrement())
+  title       String
+  amount      Decimal         @db.Decimal(15, 2)
+  type        TransactionType
+  date        DateTime
+  note        String?
+  userId      Int
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId  Int
+  category    Category        @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@map("transactions")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
