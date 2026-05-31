@@ -26,3 +26,11 @@ export function getTokenFromRequest(req: NextRequest): JWTPayload | null {
   if (!token) return null
   return verifyToken(token)
 }
+
+export function getAdminTokenFromRequest(req: NextRequest): JWTPayload | null {
+  const payload = getTokenFromRequest(req)
+  if (payload && payload.role === 'ADMIN') {
+    return payload
+  }
+  return null
+}

@@ -52,7 +52,12 @@ export default function LoginPage() {
     })
     const data = await res.json(); setLoading(false)
     if (!res.ok) { setError(data.error ?? 'Terjadi kesalahan.'); return }
-    router.push('/dashboard'); router.refresh()
+    if (data.data && data.data.role === 'ADMIN') {
+      router.push('/admin');
+    } else {
+      router.push('/dashboard');
+    }
+    router.refresh()
   }
 
   return (
