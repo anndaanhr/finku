@@ -185,7 +185,7 @@ export default function DashboardPage() {
                   <Pie data={data?.categoryBreakdown} dataKey="value" cx="50%" cy="50%" innerRadius={44} outerRadius={68} paddingAngle={3} strokeWidth={2} stroke="#0A0A0A">
                     {data?.categoryBreakdown.map((e,i)=><Cell key={i} fill={e.color}/>)}
                   </Pie>
-                  <Tooltip formatter={(v:number)=>IDR(v)} contentStyle={{ background:'#fff', border:'2px solid #0A0A0A', boxShadow:'3px 3px 0 #0A0A0A', borderRadius:8, fontSize:12, fontWeight:700 }}/>
+                  <Tooltip formatter={(v: any)=>IDR(Number(v))} contentStyle={{ background:'#fff', border:'2px solid #0A0A0A', boxShadow:'3px 3px 0 #0A0A0A', borderRadius:8, fontSize:12, fontWeight:700 }}/>
                 </PieChart>
               </ResponsiveContainer>
               <div style={{ display:'flex', flexDirection:'column', gap:8, marginTop:8 }}>

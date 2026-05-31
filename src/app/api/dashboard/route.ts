@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
   })
 
   const categoryDetails = await Promise.all(
-    categoryBreakdown.map(async (item) => {
+    categoryBreakdown.map(async (item: any) => {
       const cat = await prisma.category.findUnique({ where: { id: item.categoryId } })
       return { name: cat?.name ?? 'Lain-lain', color: cat?.color ?? '#94a3b8', value: Number(item._sum.amount ?? 0) }
     })
